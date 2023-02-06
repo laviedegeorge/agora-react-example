@@ -209,6 +209,7 @@ export default function useAgora(client: IAgoraRTCClient | undefined): {
       client.off("user-left", handleUserLeft);
       client.off("connection-state-change", onConnectionStateChange);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [client]);
 
   return {
