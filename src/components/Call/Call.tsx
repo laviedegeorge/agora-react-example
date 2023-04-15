@@ -14,13 +14,7 @@ const client = AgoraRTC.createClient({ codec: "h264", mode: "rtc" });
 const Call: FC<CallProps> = (props) => {
   const navigate = useNavigate();
   const [mode, setMode] = useState<"video" | "audio" | null>(null);
-  const {
-    channelName,
-    appId,
-    token,
-    uid,
-    callType
-  } = props;
+  const { channelName, appId, token, uid, callType } = props;
   const {
     join,
     leave,
@@ -28,7 +22,7 @@ const Call: FC<CallProps> = (props) => {
     remoteUsers,
     activateVideo,
     localAudioTrack,
-    localVideoTrack
+    localVideoTrack,
   } = useAgora(client);
 
   const localAudioAndVideo: [
@@ -38,16 +32,15 @@ const Call: FC<CallProps> = (props) => {
 
   const remoteAgoraUser = remoteUsers.length > 0 ? remoteUsers[0] : null;
 
-  const discontinueCmmunication = async () => {
+  const discontinueCommunication = async () => {
     try {
-      
-        leave()
-          .then(() => {
-            navigate(`/rate-call`); // Or do whatever you like... 
-          })
-          .catch((error) => {
-            throw new Error(error);
-          });
+      leave()
+        .then(() => {
+          navigate(`/rate-call`); // Or do whatever you like...
+        })
+        .catch((error) => {
+          throw new Error(error);
+        });
     } catch (error) {
       console.error("Failed to end communication", error);
       return error;
@@ -87,23 +80,23 @@ const Call: FC<CallProps> = (props) => {
   useEffect(() => {
     !localVideoTrack
       ? setTrackState((prevState) => {
-        return { ...prevState, video: true };
-      })
+          return { ...prevState, video: true };
+        })
       : setTrackState((prevState) => {
-        return { ...prevState, video: false };
-      });
+          return { ...prevState, video: false };
+        });
   }, [localVideoTrack]);
 
   useEffect(() => {
     if (!joinState) {
       autoJoin();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     setMode(callType);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -119,7 +112,7 @@ const Call: FC<CallProps> = (props) => {
           id="videos"
           className=" block lg:grid grid-cols-2 justify-center items-center flex-1 gap-5 lg:p-5 relative"
         >
-          {/* ========= PAITENT VIDEO ========== */}
+          {/* ========= LOCAL VIDEO ========== */}
           {localVideoTrack && (
             <div className=" h-[200px] w-[150px] md:w-[200px] md:h-[250px] absolute right-2 top-10 z-30 md:top-2 lg:static lg:w-full lg:h-full">
               <MediaPlayer
@@ -169,7 +162,7 @@ const Call: FC<CallProps> = (props) => {
               }
             }}
             tracks={localAudioAndVideo}
-            endCommunication={() => discontinueCmmunication()}
+            endCommunication={() => discontinueCommunication()}
             callType={callType}
             mode={mode}
             trackState={trackState}
@@ -220,7 +213,7 @@ const Call: FC<CallProps> = (props) => {
                 }
               }}
               tracks={localAudioAndVideo}
-              endCommunication={() => discontinueCmmunication()}
+              endCommunication={() => discontinueCommunication()}
               callType={callType}
               mode={mode}
               trackState={trackState}

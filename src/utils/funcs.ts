@@ -1,4 +1,3 @@
-import { AgoraUser } from "../libs/types";
 import {
   IAgoraRTCRemoteUser,
   IRemoteAudioTrack,
